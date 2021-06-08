@@ -1,0 +1,198 @@
+#include <iostream>
+using namespace std;
+#include <locale.h>
+
+struct Funcionario
+{
+string nome;
+int prontuario;
+double salario;	
+	struct Funcionario *prox;
+	};
+	void print(Funcionario* funcionario)
+{
+	Funcionario* aux;
+	aux = funcionario;
+	while(aux != NULL)
+	{
+		cout << "Prontuario do funcionario: " << aux->prontuario<< endl;
+		cout << "Nome: " <<aux->nome<<endl;
+		cout << "Salario: " <<aux->salario<<endl;
+		
+		aux = aux->prox;
+	}
+	cout << endl;
+}
+
+
+Funcionario* init()
+{
+	return NULL;
+}
+
+int isEmpty(Funcionario* funcionario)
+{
+	return (funcionario==NULL);
+}
+Funcionario* valido(Funcionario* funcionario, int i){
+		Funcionario* aux;
+	    aux =funcionario;
+    while (aux != NULL && aux->prontuario != i)
+	{
+		aux = aux->prox;
+	}
+	   return aux; 
+}
+Funcionario* insert(Funcionario* funcionario, int i , double l,string nome)
+{
+	Funcionario* novo = new Funcionario();
+	novo->prontuario = i;
+	novo->prox=funcionario;
+	novo->salario = l;
+	novo->prox=funcionario;
+	novo->nome = nome;
+	novo->prox=funcionario;
+	return novo;
+}
+
+Funcionario* find(Funcionario* funcionario, int i, double l, string nome)
+{
+	Funcionario* aux;
+	aux =funcionario;
+	Funcionario* au;
+	au =funcionario;
+	Funcionario* a;
+	a =funcionario;
+
+	while (aux != NULL && aux->prontuario != i)
+	{
+		aux = aux->prox;
+		aux = au->prox;
+		a = a->prox;
+		
+	}
+	return aux;
+	return au;
+	return a;
+	
+	
+}
+
+Funcionario* remove(Funcionario* funcionario, int i)
+{
+	Funcionario *aux;
+	Funcionario *ant = NULL;
+	aux = funcionario;
+	
+	while (aux != NULL && aux->prontuario != i)
+	{
+		ant = aux;
+		aux = aux->prox;
+	}
+	
+	if (aux == NULL)
+	{
+		return funcionario;
+	}
+	if (ant == NULL)
+	{
+		funcionario = funcionario->prox;
+	}
+    else {
+		ant->prox = aux->prox;
+	}
+	return funcionario;
+}
+int main(int argc, char** argv)
+{
+    setlocale(LC_ALL, "Portuguese");
+	Funcionario *minhaLista;
+	minhaLista = init();
+	
+	int pront,sal,op;
+	string nome=" ";
+	do {
+		cout << "Empresa T-MENDES" <<endl;
+		cout << "Painel de administração"<<endl;
+		cout << "0. Sair"<<endl;
+		cout << "1. Incluir"<<endl;
+		cout << "2. Excluir"<<endl;
+		cout << "3. Pesquisar"<<endl;
+		cout << "4. Listar"<<endl;
+		cout << "Informe sua opção: "<<endl;
+		cin >> op;
+		system("CLS");
+		if (op==1){
+        cout<<"Digite o prontuário do novo funcionário: "<<endl;
+		cin>>pront;
+		Funcionario *procurado = valido(minhaLista, pront);
+			if  (procurado != NULL)
+	   {
+	   	cout<<"Digite um prontuário valido"<<endl;
+	   	cout<<"Digite o prontuário do novo funcionário: "<<endl;
+		cin>>pront;
+		cout<<"Digite o nome do novo funcionário: "<<endl;
+		cin>>nome;
+		cout<<"Digite o salario do novo funcionário: "<<endl;
+		cin>>sal;
+		minhaLista = insert(minhaLista, pront, sal, nome);
+		system("CLS");		
+		}
+			else
+	{
+		cout<<"Digite o nome do novo funcionário: "<<endl;
+		cin>>nome;
+		cout<<"Digite o salario do novo funcionário: "<<endl;
+		cin>>sal;
+		minhaLista = insert(minhaLista, pront, sal, nome);
+	}
+		}
+    if (op==2){
+			cout << "Digite o prontuário do qual você deseja excluir: ";
+			cin>> pront;
+			 minhaLista= remove(minhaLista, pront);
+		}
+	if (op==3){
+		cout << "digite o prontuário: ";
+		cin >> pront;
+		Funcionario *procurado = find(minhaLista, pront, sal, nome);
+	if (procurado != NULL)
+	{
+   	    cout << "Prontuario: " << procurado->prontuario << endl;
+		cout << "Salario: " << procurado->salario << endl;
+		cout << "Nome: " << procurado->nome<< endl;
+	}
+	else
+	{
+		cout << "Dado nao encontrado!" << endl;
+	}
+	}
+    if (op==4){
+    
+	print(minhaLista);
+	cout<<"ola";
+	}
+}while (op!=0);
+	return 0;
+}
+
+
+/*À partir da estrutura "Funcionario" descrita abaixo:
+
+Funcionario
+  - prontuario: int
+  - nome: string
+  - salario: double
+Elabore um programa que permita administrar uma lista de funcionários
+ e, através de um menu, ofereça as seguintes opções:
+   0. Sair
+   1. Incluir
+   2. Excluir
+   3. Pesquisar
+   4. Listar
+OBSERVAÇÕES:
+a) Não poderão ser cadastrados funcionários com mesmo prontuário;
+b) A pesquisa de funcionário deverá utilizar o atributo
+ "Prontuário" como critério e, quando encontrado, deverão ser exibidos os demais atributos;
+c) A listagem dos funcionários deverá apresentar todos os seus atributos e, ao final,
+ informar o total dos salários.*/
